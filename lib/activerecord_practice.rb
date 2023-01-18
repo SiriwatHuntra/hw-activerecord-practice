@@ -29,8 +29,31 @@ class Customer < ActiveRecord::Base
     return Customer.where("email like '%@%'")  
     #return customer with @ in email
   end
-    #
-  # etc. - see README.md for more details
+  
+  def self.with_dot_org_email
+    Customer.where("email like '%.org.%")
+  end
+  #find mail with .org
+
+  def self.with_invalid_email
+    Customer.where.not("email like '%@%'")
+  end
+  #find invalid mail that without @
+  
+  def self.with_blank_email
+    Customer.where("email is null")
+  end
+  #find blank email
+
+  def self.born_before_1980
+    Customer.where("birthdate < '1980-01-01'")
+  end
+  #find who born before 1980
+
+  def self.with_valid_email_and_born_before_1980
+    Customer.where("email")
+
+      # etc. - see README.md for more details
 end
 
 #checking program is work by "bundle exec rspec spec/activerecord_practice_spec.rb"
