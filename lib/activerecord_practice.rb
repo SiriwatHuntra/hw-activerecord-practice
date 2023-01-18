@@ -31,7 +31,7 @@ class Customer < ActiveRecord::Base
   end
   
   def self.with_dot_org_email
-    Customer.where("email like '%.org.%")
+    Customer.where("email like '%.org.")
   end
   #find mail with .org
 
@@ -51,7 +51,39 @@ class Customer < ActiveRecord::Base
   #find who born before 1980
 
   def self.with_valid_email_and_born_before_1980
-    Customer.where("email")
+    Customer.where("email like '%@%' and birthdate < '1980-01-01'")
+  end
+  #find who put valid mail and born before 1980
+
+  def self.last_name_starting_with_b
+    Customer.where("last like 'B%")
+  end
+  #find who last name start with B
+
+  def self.twenty_youngest
+    Customer.order("birthdate DESC").limit(20)
+  end
+  #Sort by DESC (low to high) and choose first to 20th 
+
+  def self.update_gussie_murray_birthdate
+    Customer.find_by(first:'Gussie').update(birthdate:'2004-02-08')
+  end
+  #find who named Gussie and change birthdate to 2004-02-08
+  
+  def self.change_all_invalid_emails_to_blank
+    Customer.where("email != '' AND email IS NOT NULL and email NOT LIKE '%@%'").update_all "email = ''"
+  end
+  #upadate all invalid email that not null and not have @ into null
+
+  def self.delete_meggie_herman
+    Customer.find_by(:first => 'Maggie', :lasr => 'Herman').destroy
+  end
+  #find who name maggie herman and delete data
+
+  def self.delete_everyone_born_before_1978
+    Customer.where('birthdate < ? ', time.parse("1 january 1987")).destroy_all
+  end
+  #delete everyone who born before 1987-01-01
 
       # etc. - see README.md for more details
 end
