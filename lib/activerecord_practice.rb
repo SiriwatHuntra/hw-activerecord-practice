@@ -90,3 +90,5 @@ end
 
 #checking program is work by "bundle exec rspec spec/activerecord_practice_spec.rb"
 ## "bundle exec" is for sure that call correct ver. of ruby 
+
+puts Customer.all.order('first')
